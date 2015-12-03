@@ -22,7 +22,16 @@
       (cons [x y] house-coordinates))))
 
 ;; Count of unique visited coords returned by the above fnc.
-(defn total-houses-visited [houses]
-  (let [house-seq (seq houses)
-        house-set (set (house-visit-coordinates house-seq))]
+(defn houses-visited [directions]
+  (let [direction-seq (seq directions)
+        house-set (set (house-visit-coordinates direction-seq))]
     (count house-set)))
+
+;; Count of unique visited coords when santa and a robot split the list
+(defn houses-visited-with-robot [directions]
+  (let [robot-seq (take-nth 2 directions)
+        santa-seq (take-nth 2 (rest directions))
+        santa-visits (house-visit-coordinates santa-seq)
+        robot-visits (house-visit-coordinates robot-seq)
+        visit-set (set (concat santa-visits robot-visits))]
+    (count visit-set)))
