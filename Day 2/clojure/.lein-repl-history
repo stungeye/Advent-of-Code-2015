@@ -1,0 +1,47 @@
+(require '[clojure.string :as str])
+(str/split "1x2x3" "x")
+(str/split "1x2x3" #"x")
+(let [(w d l) (str/split "1x2x3" #"x"))] x)
+(let [(w d l) (str/split "1x2x3" #wx"))] x)
+)
+#
+(let [(w d l) (str/split "1x2x3" #wx")] x)
+(let [(w d l) (str/split "1x2x3" #wx")] x)"
+"
+(let [(w d l) (str/split "1x2x3" #"x"))] w)
+(let [(w d l) (str/split "1x2x3" #"x")] w)
+(let [[w d l] (str/split "1x2x3" #"x")] w)
+(let [[w d l] (str/split "1x2x3" #"x")] d)
+exit
+(slurp 'packages.txt')
+(slurp "packages.txt")
+(split (slurp "packages.txt") #"\r\n")
+(clojure.string/split (slurp "packages.txt") #"\r\n")
+load-file 
+load-file "wrapping.clj"
+(read-dimensions "packages.txt")
+(wrapping\read-dimensions "packages.txt")
+(wrapping/read-dimensions "packages.txt")
+exit
+#{ 1 2 3 3 3 4}
+#{1 2 3 3 3 4}
+(def instructions "^>v<")
+(seq instructions)
+(def instructions (seq "^>v<"))
+(instructions)
+(identity instructions)
+(defn directions [x y dirs]
+  (loop [my-seq ()
+         x 0]))
+(defn directions [dirs]
+  (loop [my-seq ()
+         x 0
+         y 0
+         next-dirs (seq dirs)]
+     (if dirs
+       (recur (cons [x y] my-seq)
+              (+ x 1)
+              (+ y 1)
+              (next next-dirs))
+        my-seq)))
+(directions instructions)
