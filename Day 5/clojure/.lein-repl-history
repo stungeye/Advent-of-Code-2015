@@ -1,0 +1,2 @@
+(slurp "strings.txt")
+(line-seq (slurp "strings.txt"))
