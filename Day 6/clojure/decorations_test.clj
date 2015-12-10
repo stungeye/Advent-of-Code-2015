@@ -39,3 +39,12 @@
   
 (deftest toggle-lights-3
   (is (= 11 (count (decorations/toggle-lights nine-lights-on (range 2 4) (range 2 4))))))
+
+(deftest apply-command-1
+  (is (= nine-lights-on (decorations/apply-light-commands [["turn on" 0 0 2 2]]))))
+
+(deftest apply-command-2
+  (is (= 5 (count (decorations/apply-light-commands [["turn on" 0 0 2 2] ["turn off" 0 0 1 1]])))))
+  
+(deftest challenge-1
+  (is (= 569999 (count (decorations/apply-light-commands (decorations/tokenize-file "commands.txt"))))))
