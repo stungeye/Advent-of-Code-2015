@@ -10,18 +10,20 @@
   (let [raw-commands (clojure.string/split (slurp filename) #"\r\n")]
     (map tokenize-command raw-commands)))
 
+(defn range-into-set [set x-range y-range]
+  (into set (for [x x-range y y-range] [x y])))
+
 (defn turn-lights-on [lights x-range y-range]
-  (into lights (for [x x-range y y-range] [x y])))
+  (range-into-set lights x-range y-range))
 
 (defn turn-lights-off [lights x-range y-range]
-  (let [switch-off (into #{} (for [x x-range y y-range] [x y]))]
+  (let [switch-off (range-into-set #{} x-range y-range)]
     (set/difference lights switch-off)))
 
 (defn toggle-lights [lights x-range y-range]
-  (let [to-toggle (into #{} (for [x x-range y y-range] [x y]))
-        switch-on (set/difference to-toggle lights)
-        switch-off (set/difference to-toggle switch-on)]
-    (set/union switch-on (set/difference lights switch-off))))
+  (let [switch-on (range-into-set #{} x-range y-range)
+        switch-off (set/intersection lights switch-on)]
+    (set/difference (set/union lights switch-on) switch-off)))
 
 (defn next-light-set [lights command]
   (let [[action x1 y1 x2 y2] command
@@ -33,6 +35,12 @@
       "toggle" (toggle-lights lights x-range y-range))))
 
 (defn apply-light-commands [commands]
+  (reduce
+    (fn [lights command] (next-light-set lights command))
+    #{}
+    commands))
+
+(defn apply-light-commands-recur [commands]
   (loop [lights #{}
          remaining-commands commands]
       (if remaining-commands

@@ -25,3 +25,34 @@ exit
 (clojure.set/join switch-on #{})
 (identity switch-on )
 exit
+(defn apply-light-commands [commands]
+  (reduce
+    (fn [lights command]
+      next-light-set lights command)
+    #{}
+    commands))
+(defn apply-light-commands [commands]
+  (reduce
+    (fn [lights command]
+      conj lights (first command))
+    #{}
+    commands))
+(apply-light-commands [[1 2 3 4]])
+(reduce (fn [a b] (conj a b)) #{} [1 2 3 4])
+(defn apply-light-commands [commands]
+  (reduce
+    (fn [lights command]
+      (conj lights command))
+     #{}
+     commands))
+(apply-light-commands [[1 2 3 4]])
+exit
+(require 'decorations.clj)
+(require 'decorations)
+(decorations/apply-light-commands (decorations/tokenize-file "test_commands.txt"))
+(time (decorations/apply-light-commands (decorations/tokenize-file "commands.txt")))
+(time (decorations/apply-light-commands-recur (decorations/tokenize-file "commands.txt")))
+(time (decorations/apply-light-commands-recur (decorations/tokenize-file "test_commands.txt")))
+(time (decorations/apply-light-commands (decorations/tokenize-file "test_commands.txt")))
+(time (decorations/tokenize-file "commands.txt"))
+exit
