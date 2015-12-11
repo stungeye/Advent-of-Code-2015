@@ -56,3 +56,37 @@ exit
 (time (decorations/apply-light-commands (decorations/tokenize-file "test_commands.txt")))
 (time (decorations/tokenize-file "commands.txt"))
 exit
+(defn to-bytecode [[command [x1 y1 x2 y2]]]
+  (map
+   #(vector command %)
+   (for [x (range x1 (inc x2))
+         y (range y1 (inc y2))]
+     [x y])))
+(to-bytecode ['toggle
+'])
+(to-bytecode ['toggle' [0 0 1 1]])
+(to-bytecode ["toggle" [0 0 1 1]])
+exit
+(def ranger [command]
+(fn [command]
+            (let [[command x1 y1 x2 y2] commands
+                  x-range (range x1 (inc x2))
+                  y-range (range y1 (inc y2))]
+              (for [x x-range y y-range] [command x y]) commands))
+)
+(def ranger [command]
+(let [[command x1 y1 x2 y2] commands
+                  x-range (range x1 (inc x2))
+                  y-range (range y1 (inc y2))]
+              (for [x x-range y y-range] [command x y]) commands))
+(defn ranger [command]
+(let [[command x1 y1 x2 y2] commands
+                  x-range (range x1 (inc x2))
+                  y-range (range y1 (inc y2))]
+              (for [x x-range y y-range] [command x y]) commands))
+(defn ranger [command]
+(let [[command x1 y1 x2 y2] commands
+                  x-range (range x1 (inc x2))
+                  y-range (range y1 (inc y2))]
+              (for [x x-range y y-range] [command x y])))
+exit

@@ -45,6 +45,31 @@
 
 (deftest apply-command-2
   (is (= 5 (count (decorations/apply-light-commands [["turn on" 0 0 2 2] ["turn off" 0 0 1 1]])))))
+
+; Commented out because it take 30+ seconds. 
+;(deftest challenge-1
+;  (is (= 569999 (count (decorations/apply-light-commands (decorations/tokenize-file "commands.txt"))))))
+
+(deftest commands->range-commands-1
+  (is (= [["turn off" 0 0] ["turn off" 0 1] ["turn off" 1 0] ["turn off" 1 1]] (decorations/commands->range-commands [["turn off" 0 0 1 1]]))))
+
+(deftest commands->range-commands-1
+  (is (= [["turn off" 0 0] ["turn on" 1 1]] (decorations/commands->range-commands [["turn off" 0 0 0 0] ["turn on" 1 1 1 1]]))))
   
-(deftest challenge-1
-  (is (= 569999 (count (decorations/apply-light-commands (decorations/tokenize-file "commands.txt"))))))
+(deftest next-light-hash-1
+  (is (= {[0 0] 1} (decorations/next-light-hash {[0 0] 0} ["turn on" 0 0]))))
+
+(deftest next-light-hash-2
+  (is (= {[0 0] 1} (decorations/next-light-hash {} ["turn on" 0 0]))))
+
+(deftest next-light-hash-3
+  (is (= {[0 0] 0} (decorations/next-light-hash {[0 0] 1} ["turn off" 0 0]))))
+
+(deftest total-brightness-1
+  (is (= 4 (decorations/total-brightness {[0 0] 1 [0 1] 0 [1 0] 3}))))
+
+(deftest challenge-2-pre
+  (is (= 1626 (decorations/total-brightness (decorations/apply-light-commands-2 (decorations/tokenize-file "test_commands.txt"))))))
+
+(deftest challenge-2
+  (is (= 17836115 (decorations/total-brightness (decorations/apply-light-commands-2 (decorations/tokenize-file "commands.txt"))))))
