@@ -26,7 +26,6 @@
   (is (= 48 (wrapping/total-required-ribbon ["1x1x10" "2x3x4"]))))
 
 (deftest challenge-2
-  (is (= 1598415
-         (wrapping/total-required-ribbon (wrapping/read-dimensions "packages.txt")))))
+  (is (= 1598415 (wrapping/total-required-ribbon (wrapping/read-dimensions "packages.txt")))))
 
 (run-tests)
