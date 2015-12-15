@@ -1,0 +1,3 @@
+NOT dq -> dr
+kg OR kf -> kh
+44430 -> b
