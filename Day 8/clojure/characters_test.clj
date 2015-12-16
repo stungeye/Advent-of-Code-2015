@@ -39,3 +39,6 @@
 
 (deftest challenge-1
   (is (= 1350 (characters/char-count-diff-collection challenge-strings))))
+
+(deftest challenge-2
+  (is (= 2085 (characters/char-count-encoded-diff-collection challenge-strings))))

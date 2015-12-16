@@ -16,3 +16,16 @@
 
 (defn char-count-diff-collection [strings]
   (reduce + (map char-count-diff strings)))
+  
+(defn re-encoded-count [string]
+  (-> string
+    (clojure.string/replace #"^\"(.*)\"$" "___$1___")
+    (clojure.string/replace #"\\" "__")
+    (clojure.string/replace #"\"" "__")
+    count))
+
+(defn char-count-encoded-diff [string]
+  (- (re-encoded-count string) (count string)))
+
+(defn char-count-encoded-diff-collection [strings]
+  (reduce + (map char-count-encoded-diff strings)))

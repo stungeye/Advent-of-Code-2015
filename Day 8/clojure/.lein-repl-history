@@ -134,3 +134,107 @@
 (pprint (map #(str %1 " " %2 (count %1) (count %2)) (map replacer test-strings) output))
 (pprint (map #(str %1 " " %2 " " ( - (count %1) (count %2))) (map replacer test-strings) output))
 (pprint (map #( - (count %1) (count %2)) (map replacer test-strings) output))
+(defn file->strings [filename]
+  (clojure.string/split (slurp filename) #"\r\n"))
+(defn in-memory-count [string]
+  (-> string
+      (clojure.string/replace #"^\"(.*)\"$" "$1")
+      (clojure.string/replace #"\\\"" "_")
+      (clojure.string/replace #"\\\\" "_")
+      (clojure.string/replace #"\\x.." "_")
+      count))
+(defn char-count-diff [string]
+  (- (count string) (in-memory-count string)))
+(defn char-count-diff-collection [strings]
+  (reduce + (map char-count-diff strings)))
+  
+(defn re-encoded-count [string]
+  (-> string
+    (clojure.string/replace #"^\"(.*)\"$" "_\"$1\"_")
+    (clojure.string/replace #"\\" "\\\\")
+    (clojure.string/replace #"\"" "\\\"")
+    count))
+(defn char-count-encoded-diff [string]
+  (- (re-encoded-count string) (count string)))
+(defn char-count-encoded-diff-collection [strings]
+  (reduce + (map char-count-encoded-diff strings)))
+(def test-strings (file->strings "test-strings.txt"))
+(def test-strings (file->strings "test_strings.txt"))
+(defn replacer [string]
+  (-> string
+    (clojure.string/replace #"^\"(.*)\"$" "_\"$1\"_")
+    (clojure.string/replace #"\\" "\\\\")
+    (clojure.string/replace #"\"" "\\\"")
+)
+(map replacer test-strings)
+(identity test-strings)
+(pprint (map replacer test-strings))
+(count (identity test-strings))
+(count (map replacer test-strings))
+(pprint (map replacer test-strings))
+(defn replacer [string]
+  (-> string
+    (clojure.string/replace #"^\"(.*)\"$" "$1")
+    (clojure.string/replace #"\\" "\\\\")
+    (clojure.string/replace #"\"" "\\\"")))
+(pprint (map replacer test-strings))
+exit
+(defn file->strings [filename]
+  (clojure.string/split (slurp filename) #"\r\n"))
+(defn in-memory-count [string]
+  (-> string
+      (clojure.string/replace #"^\"(.*)\"$" "$1")
+      (clojure.string/replace #"\\\"" "_")
+      (clojure.string/replace #"\\\\" "_")
+      (clojure.string/replace #"\\x.." "_")
+      count))
+(defn char-count-diff [string]
+  (- (count string) (in-memory-count string)))
+(defn char-count-diff-collection [strings]
+  (reduce + (map char-count-diff strings)))
+  
+(defn re-encoded-count [string]
+  (-> string
+    (clojure.string/replace #"^\"(.*)\"$" "___$1___")
+    (clojure.string/replace #"\\" "__")
+    (clojure.string/replace #"\"" "____")
+    count))
+(defn char-count-encoded-diff [string]
+  (- (re-encoded-count string) (count string)))
+(defn char-count-encoded-diff-collection [strings]
+  (reduce + (map char-count-encoded-diff strings)))
+(def test-strings (file->strings "test_strings.txt
+"))
+(def test-strings (file->strings "test_strings.txt"))
+(defn replacer [string]
+  (-> string
+    (clojure.string/replace #"^\"(.*)\"$" "___$1___")
+    (clojure.string/replace #"\\" "__")
+    (clojure.string/replace #"\"" "____")))
+(map replacer test-strings)
+(map count (map replacer test-strings))
+(defn replacer [string]
+    (clojure.string/replace #"^\"(.*)\"$" "___$1___")
+    (clojure.string/replace #"\\" "__")
+    (clojure.string/replace #"\"" "__")))
+(defn replacer [string]
+    (clojure.string/replace #"^\"(.*)\"$" "___$1___")
+    (clojure.string/replace #"\\" "__")
+    (clojure.string/replace #"\"" "__")
+_
+(defn replacer [string]
+    (clojure.string/replace #"^\"(.*)\"$" "___$1___")
+    (clojure.string/replace #"\\" "__")
+    (clojure.string/replace #"\"" "__")))
+(defn replacer [string]
+    (clojure.string/replace #"^\"(.*)\"$" "___$1___")
+    (clojure.string/replace #"\\" "__")
+    (clojure.string/replace #"\"" "__"))
+(map count (map replacer test-strings))
+(defn replacer [string]
+  (-> string
+    (clojure.string/replace #"^\"(.*)\"$" "___$1___")
+    (clojure.string/replace #"\\" "__")
+    (clojure.string/replace #"\"" "__")
+)
+(map count (map replacer test-strings))
