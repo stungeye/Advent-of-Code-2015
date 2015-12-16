@@ -15,9 +15,17 @@
 (deftest tokenize-command-4
   (is (= ["y" {:operator bit-shift-left :operands["x" "2"]}] (logic/tokenize-command "x LSHIFT 2 -> y"))))
 
+(def processed-test-commands (logic/tokenize-commands (logic/file->commands "test_commands.txt")))
+
 (deftest tokenize-file
-  (is (= (logic/tokenize-commands (logic/file->commands "test_commands.txt"))
+  (is (= processed-test-commands
          {"dr" {:operator bit-not :operands ["dq"]}
+          "kh" {:operator bit-or :operands ["kg" "kf"]}
+          "b"  {:value "44430"}})))
+
+(deftest override-signal-1
+  (is (= (logic/override-signal "555 -> dr" processed-test-commands)
+         {"dr" {:value "555"}
           "kh" {:operator bit-or :operands ["kg" "kf"]}
           "b"  {:value "44430"}})))
 
@@ -53,4 +61,7 @@
 (def challenge-commands (logic/tokenize-commands (logic/file->commands "commands.txt")))
 
 (deftest challenge-1
-  (is (= 492 (logic/solve-for "a" challenge-commands))))
+  (is (= 3176 (logic/solve-for "a" challenge-commands))))
+
+(deftest challenge-2
+  (is (= 3176 (logic/solve-for "a" (logic/override-signal "3176 -> b" challenge-commands)))))

@@ -20,14 +20,20 @@
           {}
           raw-commands))
 
+(defn override-signal [raw-command commands]
+  (let [[wire wiring] (tokenize-command raw-command)]
+    (assoc commands wire wiring)))
+
 (declare value-of-operand)
 
 (defn solve-for [wire commands]
   (let [{:keys [operator operands value]} (commands wire)]
     (if (nil? operator)
       (value-of-operand value commands)
-      (bit-and 0xffff (apply operator (map #(value-of-operand %1 commands) operands))))))
+      (bit-and 0xffff (apply operator (map #(value-of-operand %1 commands) operands)))))) ; bit-and required to truncate sign bit.
 
-(defn value-of-operand [operand commands]
-  (let [numeric-value (read-string operand)]
-    (if (number? numeric-value) numeric-value (solve-for operand commands))))
+(def value-of-operand
+  (memoize (fn [operand commands]
+    (let [numeric-value (read-string operand)]
+      (if (number? numeric-value) numeric-value (solve-for operand commands))))))
+
