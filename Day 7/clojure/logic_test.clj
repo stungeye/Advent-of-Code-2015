@@ -64,4 +64,4 @@
   (is (= 3176 (logic/solve-for "a" challenge-commands))))
 
 (deftest challenge-2
-  (is (= 3176 (logic/solve-for "a" (logic/override-signal "3176 -> b" challenge-commands)))))
+  (is (= 14710 (logic/solve-for "a" (logic/override-signal "3176 -> b" challenge-commands)))))
